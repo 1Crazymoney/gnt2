@@ -5,7 +5,6 @@ import {ConsoleLogger, Logger} from '../utils/logger';
 import {GolemNetworkTokenBatching} from '../../build/contract-types/GolemNetworkTokenBatching';
 import {GolemNetworkToken} from '../../build/contract-types/GolemNetworkToken';
 import {GolemContractsDevDeployment} from './interfaces';
-import {BigNumber} from 'ethers/utils';
 import {getGasLimit} from '../config';
 import {GNTMigrationAgentFactory} from '../../build/contract-types/GNTMigrationAgentFactory';
 import {getChainId} from '../utils/network';
@@ -21,11 +20,11 @@ async function mineEmptyBlock(provider: Provider) {
 }
 
 async function waitUntilBlock(provider: Provider, blockNumber: number) {
-
   while (await provider.getBlockNumber() < blockNumber) {
-    if ((await provider.getNetwork()).name !== 'rinkeby') {
+    if ((await provider.getNetwork()).name === 'unknown') {
       await mineEmptyBlock(provider);
     } else {
+      console.log(`Waiting until block...`);
       await sleep(5000);
     }
   }
@@ -37,8 +36,8 @@ function defaultOverrides() {
 
 export async function deployOldToken(provider: Provider, deployWallet: Wallet, holder: Wallet, logger: Logger = new ConsoleLogger()) {
   const currentBlockNumber = await provider.getBlockNumber();
-  const fundingStartBlock = currentBlockNumber + 3;
-  const fundingEndBlock = currentBlockNumber + 5;
+  const fundingStartBlock = currentBlockNumber + 13;
+  const fundingEndBlock = currentBlockNumber + 15;
   logger.log(`fundingStartBlock = ${fundingStartBlock}`);
   logger.log(`fundingEndBlock = ${fundingEndBlock}`);
   const token = await new GolemNetworkTokenFactory(deployWallet).deploy(
@@ -47,16 +46,20 @@ export async function deployOldToken(provider: Provider, deployWallet: Wallet, h
     fundingStartBlock,
     fundingEndBlock
   );
+  await token.deployed();
   logger.log(`Deployed at ${token.address}`);
-  const holderSignedToken = await token.connect(holder);
-  await waitUntilBlock(provider, fundingStartBlock);
-  logger.log('Mining...');
-  await holderSignedToken.create({...defaultOverrides(), value: new BigNumber('15000000000000000')});
+  // const holderSignedToken = await token.connect(holder);
+  // await holderSignedToken.deployed();
+  // await waitUntilBlock(provider, fundingStartBlock);
+  // logger.log('Mining...');
+  // let tx = await holderSignedToken.create({...defaultOverrides(), value: new BigNumber('1500000000000')});
+  // await tx.wait();
   await waitUntilBlock(provider, fundingEndBlock);
   logger.log('Finalizing...');
-  await token.finalize(defaultOverrides());
+  const tx = await token.finalize(defaultOverrides());
+  await tx.wait();
   logger.log('Done!');
-  return {token, holderSignedToken};
+  return {token, holderSignedToken: null as any};
 }
 
 export async function wrapGNTtoGNTB(wallet: Wallet, gntb: GolemNetworkTokenBatching, gnt: GolemNetworkToken, value: string) {
