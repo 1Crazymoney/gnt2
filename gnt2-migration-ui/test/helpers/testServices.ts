@@ -39,7 +39,7 @@ async function testConnectionService(provider: JsonRpcProvider, address?: string
 function testContractAddressService(connectionService: ConnectionService, addresses: GolemContractsDeploymentAddresses) {
 
   return new ContractAddressService(connectionService, {
-    local: addresses as ContractAddresses,
+    kovan: addresses as ContractAddresses,
     rinkeby: addresses as ContractAddresses
   });
 }

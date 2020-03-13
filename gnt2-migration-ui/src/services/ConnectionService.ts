@@ -13,9 +13,10 @@ export enum ConnectionState {
 const networkNameFrom = (chainId: string): NetworkName => {
   if (chainId === '4') {
     return 'rinkeby';
-  } else {
-    return 'local';
+  } else if (chainId === '42') {
+    return 'kovan';
   }
+  throw new Error(`Unsupported chain id ${chainId}`)
 };
 
 export class ConnectionService {
@@ -27,7 +28,7 @@ export class ConnectionService {
   constructor(private injectedMetaMaskEthereum: MetamaskEthereum | undefined) {
     this.connectionState = ConnectionState.UNKNOWN;
     this.account = new State<string>('');
-    this.network = new State<NetworkName>('local');
+    this.network = new State<NetworkName>('kovan');
   }
 
   static create() {
