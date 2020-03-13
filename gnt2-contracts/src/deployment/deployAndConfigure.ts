@@ -25,12 +25,16 @@ if (!process.env.infuraAddress) {
 } else {
   if (!process.env.pkey) throw new Error('private key not provided');
   provider = new providers.JsonRpcProvider(process.env.infuraAddress);
-  provider.getGasPrice = async () => new BigNumber('10000000000');
   deployer = new Wallet(process.env.pkey, provider);
 }
 
 
 async function main() {
+  if (await getChainId(provider) === 42) {
+    // cheaper gas price on Kovan
+    provider.getGasPrice = async () => new BigNumber('10000000000');
+  }
+
   announceStep('Deploy MultiSigWallet');
   const multiSigOwners = [
     '0xB1974E1F44EAD2d22bB995167A709b89Fc466B6c',
