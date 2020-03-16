@@ -24,7 +24,6 @@
     - permitted and then un-approved by setting allowance to 0
     - permitted and then approved a small amount
     - approved a small amount and then permitted
-- It is not be possible to remove the migration agent as a minter
 
 ## Integration
 
