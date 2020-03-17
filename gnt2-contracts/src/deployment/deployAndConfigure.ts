@@ -10,7 +10,7 @@ import {GNTMigrationAgentFactory} from '../../build/contract-types/GNTMigrationA
 import {getChainId} from '../utils/network';
 import {createMockProvider, getWallets} from 'ethereum-waffle';
 import {BigNumber} from 'ethers/utils';
-import { BatchingSidecarFactory } from 'gnt2-contracts/build/contract-types/BatchingSidecarFactory';
+import {BatchingSidecarFactory} from 'gnt2-contracts/build/contract-types/BatchingSidecarFactory';
 
 let stepCounter = 0;
 const announceStep = (step: string) =>
@@ -85,9 +85,9 @@ async function main() {
 
 
   announceStep('Deploying Batching sidecar');
-  const batchingSidecar = await new BatchingSidecarFactory(deployer).deploy(NGNT.address)
-  await batchingSidecar.deployed()
-  console.log(`BatchingSidecar deployed at ${batchingSidecar.address}`)
+  const batchingSidecar = await new BatchingSidecarFactory(deployer).deploy(NGNT.address);
+  await batchingSidecar.deployed();
+  console.log(`BatchingSidecar deployed at ${batchingSidecar.address}`);
 
 
   console.log('\nLast step is excluded from this procedure\n');

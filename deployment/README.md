@@ -9,6 +9,7 @@ Script | Purpose | Details
 `precheck.sh`  | Make assertions about the deployment to make sure everything is correct. | Interact with blockchain in read-only mode.
 `setMigrationAgent.sh` | Perform the last step, effectively starting the migration. | Executed by Golem Migration Master
 `shutdown.sh` | First step of Emergency Recovery mode. | Executed by Golem Migration Master
+`emergency.sh` | Second step of Emergency Recovery mode - read migrated balances. | Executed by Golem Migration Master
 
 # Usage
 
