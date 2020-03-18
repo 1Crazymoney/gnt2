@@ -52,12 +52,10 @@ export async function deployOldToken(provider: Provider, deployWallet: Wallet, h
   // await holderSignedToken.deployed();
   // await waitUntilBlock(provider, fundingStartBlock);
   // logger.log('Mining...');
-  // let tx = await holderSignedToken.create({...defaultOverrides(), value: new BigNumber('1500000000000')});
-  // await tx.wait();
+  // await (await holderSignedToken.create({...defaultOverrides(), value: new BigNumber('15000000000000000')})).wait();
   await waitUntilBlock(provider, fundingEndBlock);
   logger.log('Finalizing...');
-  const tx = await token.finalize(defaultOverrides());
-  await tx.wait();
+  await (await token.finalize(defaultOverrides())).wait();
   logger.log('Done!');
   return {token, holderSignedToken: null as any};
 }
