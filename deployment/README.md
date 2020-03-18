@@ -68,6 +68,8 @@ Results: OK or not OK indication.
 
 ## Script: `emergency.sh`
 
+- Deploys a Corrected NGNT based on the state of Migration Agent
+
 ```bash
 [pkey=0x..] ./emergency.sh <target>
 
@@ -79,6 +81,11 @@ Results:
 - `CGNT=0x..`
 
 ## Script: `verify.sh`
+
+Checks:
+
+- If the total supply of NGNT matches total supply of Corrected NGNT
+- If the balances of Corrected NGNT match the records of the Migration Agent
 
 ```bash
 ./verify.sh <target>
