@@ -11,7 +11,7 @@ import {getChainId} from '../utils/network';
 import {createMockProvider, getWallets} from 'ethereum-waffle';
 import {BigNumber} from 'ethers/utils';
 import {BatchingSidecarFactory} from 'gnt2-contracts/build/contract-types/BatchingSidecarFactory';
-import { announceStep } from './utils';
+import {announceStep} from './utils';
 
 let provider: providers.JsonRpcProvider;
 let deployer: Wallet;

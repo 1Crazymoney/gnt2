@@ -10,6 +10,7 @@ Script | Purpose | Details
 `setMigrationAgent.sh` | Perform the last step, effectively starting the migration. | Executed by Golem Migration Master
 `shutdown.sh` | First step of Emergency Recovery mode. | Executed by Golem Migration Master
 `emergency.sh` | Second step of Emergency Recovery mode - read migrated balances. | Executed by Golem Migration Master
+`verify.sh` | Verify a corrected token to make sure it was properly configured. | Executed by Golem Migration Master
 
 # Usage
 

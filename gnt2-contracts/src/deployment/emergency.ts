@@ -3,7 +3,7 @@ import {writeFileSync} from 'fs';
 import {GNTMigrationAgentFactory} from '../../build/contract-types/GNTMigrationAgentFactory';
 import {CorrectedGolemNetworkTokenFactory} from '../../build/contract-types/CorrectedGolemNetworkTokenFactory';
 import {createMockProvider, getWallets} from 'ethereum-waffle';
-import { announceStep } from './utils';
+import {announceStep} from './utils';
 import {getChainId} from '../utils/network';
 
 
@@ -46,14 +46,14 @@ async function main() {
     const item = data[i];
     announceStep(`Minting ${i + 1}/${data.length}`);
     (await CGNT.mint(item.from, item.value)).wait();
-    console.log('Minted.')
+    console.log('Minted.');
   }
 
   announceStep('Renounce minter');
   (await CGNT.renounceMinter()).wait();
-  console.log('Renounced')
+  console.log('Renounced');
 
-  console.log('Emergency finished')
+  console.log('Emergency finished');
 }
 
 main().catch(reason => {
