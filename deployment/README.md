@@ -69,7 +69,7 @@ Results: OK or not OK indication.
 ## Script: `emergency.sh`
 
 ```bash
-[pkey=0x..] ./shutdown.sh <target>
+[pkey=0x..] ./emergency.sh <target>
 
 ... provide contract addresses when prompted
 ```
@@ -81,7 +81,7 @@ Results:
 ## Script: `verify.sh`
 
 ```bash
-./shutdown.sh <target>
+./verify.sh <target>
 
 ... provide contract addresses when prompted
 ```
