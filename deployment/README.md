@@ -5,12 +5,12 @@ There are the following scripts here:
 
 Script | Purpose | Details
 --- | --- | ---
-`deploy.sh` | Deploy and configure all necessary Smart Contracts, excluding last step of starting the migration. | Can be executed by 3rd party.
-`precheck.sh`  | Make assertions about the deployment to make sure everything is correct. | Interact with blockchain in read-only mode.
-`setMigrationAgent.sh` | Perform the last step, effectively starting the migration. | Executed by Golem Migration Master
-`shutdown.sh` | First step of Emergency Recovery mode. | Executed by Golem Migration Master
-`emergency.sh` | Second step of Emergency Recovery mode - read migrated balances. | Executed by Golem Migration Master
-`verify.sh` | Verify a corrected token to make sure it was properly configured. | Executed by Golem Migration Master
+`deploy.sh` | Deploy and configure all necessary Smart Contracts, excluding last step of starting the migration. | Executed by **3rd party**
+`precheck.sh`  | Make assertions about the deployment to make sure everything is correct. | **Read-only** mode
+`setMigrationAgent.sh` | Perform the last step, effectively starting the migration. | Executed by **Golem**
+`shutdown.sh` | First step of Emergency Recovery mode. | Executed by **Golem**
+`emergency.sh` | Second step of Emergency Recovery mode - read migrated balances and deploy corrected token. | Executed by **3rd party**
+`verify.sh` | Verify a corrected token to make sure it was properly configured. | **Read-only** mode
 
 # Usage
 
@@ -23,12 +23,13 @@ Target | Description
 mock | Execute the deployment procedure targeting a mock blockchain locally
 kovan | Kovan testnet
 rinkeby | Rinkeby testnet
-mainnet | Mainnet
 
 ## Script: `deploy.sh`
 
 ```bash
-[pkey=0x..] [golemMigrationMaster=0x..] ./deploy.sh <target>
+[pkey=0x..] ./deploy.sh <target>
+
+... provide contract addresses when prompted
 ```
 
 Results:
@@ -39,7 +40,9 @@ Results:
 ## Script: `precheck.sh`
 
 ```bash
-[golemMigrationAgent=0x..] [NGNT=0x..] ./precheck.sh <target>
+./precheck.sh <target>
+
+... provide contract addresses when prompted
 ```
 
 Results: OK or not OK indication.
@@ -47,7 +50,9 @@ Results: OK or not OK indication.
 ## Script: `setMigrationAgent.sh`
 
 ```bash
-[pkey=0x..] [NGNT=0x..] ./setMigrationAgent.sh <target> [txHash]
+[pkey=0x..] ./setMigrationAgent.sh <target> [txHash]
+
+... provide contract addresses when prompted
 ```
 
 - If `txHash` is provided, the keyholder confirms the transaction in the Multisig
@@ -56,8 +61,32 @@ Results: OK or not OK indication.
 ## Script: `shutdown.sh`
 
 ```bash
-[pkey=0x..] [GNTMigrationAgent=0x..] ./shutdown.sh <target> [txHash]
+[pkey=0x..] ./shutdown.sh <target> [txHash]
+
+... provide contract addresses when prompted
 ```
+
+## Script: `emergency.sh`
+
+```bash
+[pkey=0x..] ./shutdown.sh <target>
+
+... provide contract addresses when prompted
+```
+
+Results:
+
+- `CGNT=0x..`
+
+## Script: `verify.sh`
+
+```bash
+./shutdown.sh <target>
+
+... provide contract addresses when prompted
+```
+
+Results: OK or not OK indication.
 
 ---
 
@@ -85,7 +114,6 @@ Command | Actor | Parameters
 Same as on Rinkeby, except:
 
 - Substitute `rinkeby` for `mainnet`
-- Provide private keys when necessary
 
 ## Artifacts of the test procedures
 
